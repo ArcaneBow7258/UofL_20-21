@@ -1,0 +1,199 @@
+======================Problem 1
+package assignment2;
+import java.util.Scanner;
+public class Problem1 {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Please enter your first name");
+		String first = scan.next();
+		
+		System.out.println("Please enter your last name");
+		String last = scan.next();
+		
+		String user = first.substring(0, 1) + last.substring(0,5) + (int)(Math.random()*89 + 10);
+		System.out.println("Your username is:" + user);
+		
+		scan.close();
+		
+	}
+}
+
+
+====================Problem 2
+package assignment2;
+import java.text.DecimalFormat;
+public class Problem2 {
+public static void main(String[] args) {
+	
+	DecimalFormat fmt = new DecimalFormat("###.####");
+	final double radius = 5;
+	final double volume = (4.0/3.0)* Math.PI * Math.pow(radius, 3);
+	final double surface_area = 4.0 * Math.PI * Math.pow(radius, 2);
+	
+	System.out.println("For a sphere of radius: " + fmt.format(radius));
+	System.out.println("Its volume is: " + fmt.format(volume));
+	System.out.println("Its surface area is: " + fmt.format(surface_area));
+}
+	
+}
+
+======================Problem 3
+package assignment2;
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+
+public class Problem3 extends Application{
+	
+	public void start(Stage primaryStage) {
+		Circle circle = new Circle(200, 200, Math.random()*100 + 50);
+		
+		Group single = new Group(circle);
+		Scene scene = new Scene(single, 500, 500, Color.AZURE);
+		
+		primaryStage.setTitle("Problem 3, Random Circle");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+}
+
+=====================Problem 4, Flight.java
+package assignment2;
+
+public class Flight {
+	private String name;
+	private int number;
+	private String origin;
+	private String destination;
+	//Constructor
+	public Flight(String flightName, int flightNum, String originCity, String destCity) {
+		name = flightName;
+		number = flightNum;
+		origin = originCity;
+		destination = destCity;
+	}
+	//Getters================
+	public String getName(){
+		return name;
+	}
+	public int getNumber(){
+		return number;
+	}
+	public String getOrigin(){
+		return origin;
+	}
+	public String getDestination(){
+		return destination;
+	}
+	//Setters================
+	public void setName(String flightName){
+		name = flightName;
+	}
+	public void setNumber(int flightNum){
+		number = flightNum;
+	}
+	public void setOrigin(String originCity){
+		origin = originCity;
+	}
+	public void setDestination(String destCity){
+		destination = destCity;
+	}
+	//FULL================
+	public String toString() {
+		return "Airline Name: " + name + ", Flight Number: "+ number +", Origin: " +origin+ ", Destination: " + destination;
+	}
+}
+
+
+
+=================Problem 4, FlightTest.java
+package assignment2;
+
+public class Problem4 {
+	
+	
+	
+	
+	public static void main(String[] args) {
+		Flight flight1 = new Flight("Southwest", 1, "Louisvlle", "Chicago");
+		Flight flight2 = new Flight("United", 2, "New York", "Florida");
+		Flight flight3 = new Flight("Delta", 0, "Unkown", "Unknown");
+		
+		System.out.println(flight1.toString());
+		
+		//Flight 2 changed Airlines
+		flight2.setName("Southwest");
+		System.out.println("Flight 2's airline has been changed to " + flight2.getName());
+		System.out.println(flight2.toString());
+		
+		//Flight 3 gets initialized
+		flight3.setNumber(3);
+		flight3.setOrigin(flight1.getDestination());
+		flight3.setDestination(flight1.getOrigin());
+		System.out.println("Flight 1's return flight will be flight 3");
+		System.out.println(flight3.toString());
+		
+		
+	}
+}
+=====================Problem 5,
+package assignment2;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
+import javafx.stage.Stage;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.FlowPane;
+
+import javafx.scene.shape.Circle;
+
+public class Problem5 extends Application {
+	final int yBound = 750;
+	final int xBound = 750;
+	private Circle circle1;
+	private Button push;
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		//Circle
+		
+		circle1 = new Circle(Math.random()*xBound,Math.random()*yBound, 50);
+		
+		//Push Button
+		push = new Button("Move Circle");
+		push.setOnAction(this::processButtonPress);
+		
+		//Pane
+		FlowPane pane = new FlowPane(circle1, push);
+		pane.setAlignment(Pos.CENTER);
+		
+		//Grouping and setting scene
+		Group root = new Group(pane, circle1);
+		
+		Scene scene = new Scene(root, xBound, yBound);
+		//Setting Stage
+		primaryStage.setTitle("Random Circle Button");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	public void processButtonPress(ActionEvent event) {
+		circle1.setCenterX(Math.random()*xBound);
+		circle1.setCenterY(Math.random()*yBound);
+	}
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+}
+

@@ -1,0 +1,482 @@
+package assignment5;
+
+public class employee {
+	protected String fName;
+	protected String lName;
+	
+	public employee(String fName, String lName) {
+		this.fName = fName;
+		this.lName = lName;
+		System.out.println("Employee: " + getName());
+	}
+	public void setfName(String name){
+		fName = name;
+	}
+	public void setlName(String name) {
+		lName = name;
+	}
+	
+	public String getName() {
+		return fName + " " + lName;
+	}
+	
+	public void doJob() {
+		System.out.println(getName() + " enters the hospital");
+	}
+}
+
+package assignment5;
+
+public class medicalEmployee extends employee {
+	protected int ward;
+	
+	public medicalEmployee(String fName, String lName, int ward) {
+		super(fName, lName);
+		this.ward = ward;
+		
+	}
+	
+	public void setWard(int ward) {
+		this.ward = ward;
+		System.out.println(super.getName() + " has been assigned to Ward " +this.ward );
+	}
+	public int getWard() {
+		return ward;
+	}
+}
+package assignment5;
+
+public class Doctor extends medicalEmployee{
+	
+	public Doctor(String fName, String lName, int ward) {
+		super(fName, lName, ward);
+		
+	}
+	public String getName() {
+		return "Dr. " + super.getName();
+	}
+	public void doJob() {
+		System.out.println(this.getName() + " visits a patient in Ward "+getWard());
+	}
+}
+package assignment5;
+
+public class Nurse extends medicalEmployee{
+	
+	public Nurse(String fName, String lName, int ward) {
+		super(fName, lName, ward);
+	}
+	public String getName() {
+		return "Nurse " + super.getName();
+	}
+	public void doJob() {
+		System.out.println(getName() + " tends to patient in Ward "+getWard());
+	}
+}
+package assignment5;
+
+public class Receptionist extends employee{
+	public Receptionist(String fName, String lName) {
+		super(fName,lName);
+	}
+	
+	public void doJob() {
+		System.out.println(getName() + " takes a call.");
+	}
+
+}
+package assignment5;
+
+
+public class Problem1 {
+	public static void main(String[] args) {
+		Receptionist rep = new Receptionist("Billy", "Jean");
+		Doctor doc = new Doctor("George","Smith", 1);
+		Nurse nur = new Nurse("Joy", "Jolly", 2);
+		
+		System.out.println("\nThe day starts");
+		System.out.println(doc.getName() + " is in Ward "+ doc.getWard());
+		System.out.println(nur.getName() + " is in Ward "+ nur.getWard());
+		System.out.println();
+		
+		rep.doJob();
+		doc.setWard(2);
+		doc.doJob();
+		nur.doJob();
+		System.out.println();
+		
+		rep.doJob();
+		doc.setWard(1);
+		nur.setWard(1);
+		doc.doJob();
+		nur.doJob();
+	
+	}
+}
+
+package assignment5;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.control.*;
+
+public class Problem2 extends Application {
+	
+	private ColorPicker colorPicker;
+	private Text text;
+	
+	private Text instruct;
+	
+	private TextArea input;
+	private Button confirm;
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		text = new Text("Default");
+		colorPicker = new ColorPicker(Color.BLACK);
+		colorPicker.setOnAction(this::processColor);
+		
+		
+		input = new TextArea();
+		input.setPrefSize(100, 15);
+		input.setOnKeyPressed(this::processReturn);
+		confirm = new Button("Confirm");
+		confirm.setOnAction(this::processText);
+		//////////////////
+		HBox mainDisplay = new HBox(colorPicker, text);
+		mainDisplay.setSpacing(15);
+		mainDisplay.setAlignment(Pos.CENTER);
+		////////////////////
+		instruct = new Text("Press return or the button to set text");
+		HBox misc = new HBox(instruct);
+		misc.setAlignment(Pos.CENTER);
+		/////////////////
+		HBox userDisplay = new HBox(input, confirm);
+		userDisplay.setSpacing(15);
+		userDisplay.setAlignment(Pos.CENTER);
+		VBox root = new VBox(mainDisplay, misc, userDisplay);
+		root.setSpacing(10);
+		/////////////////////
+		Scene scene = new Scene(root, 400, 150);
+		
+		primaryStage.setTitle("Problem 2");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+	public void processColor(ActionEvent event) {
+		text.setFill(colorPicker.getValue());
+	}
+	public void processText(ActionEvent event) {
+		text.setText(input.getText());
+	}
+	public void processReturn(KeyEvent event) {
+		switch(event.getCode()) {
+		case ENTER:
+			text.setText(input.getText());
+			break;
+		default:
+			break;
+		}
+	}
+	
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+}
+
+package assignment5;
+
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.stage.Stage;
+import javafx.scene.control.ColorPicker;
+public class Problem3 extends Application {
+
+	private Line currentLine;
+	private Group root;
+	private ColorPicker colorPicker;
+	// --------------------------------------------------------------------
+	// Displays an initially empty scene, waiting for the user to
+	// draw lines with the mouse.
+	// --------------------------------------------------------------------
+	public void start(Stage primaryStage) {
+		colorPicker = new ColorPicker(Color.CYAN);
+		
+		
+		root = new Group();
+		
+		
+		Scene scene = new Scene(root, 500, 300, Color.BLACK);
+		root.getChildren().addAll(colorPicker);
+		scene.setOnMousePressed(this::processMousePress);
+		scene.setOnMouseDragged(this::processMouseDrag);
+
+		primaryStage.setTitle("Rubber Lines");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+
+	// --------------------------------------------------------------------
+	// Adds a new line to the scene when the mouse button is pressed.
+	// --------------------------------------------------------------------
+	public void processMousePress(MouseEvent event) {
+		currentLine = new Line(event.getX(), event.getY(), event.getX(), event.getY());
+		currentLine.setStroke(colorPicker.getValue());
+		currentLine.setStrokeWidth(3);
+		root.getChildren().add(currentLine);
+	}
+
+	// --------------------------------------------------------------------
+	// Updates the end point of the current line as the mouse is
+	// dragged, creating the rubber band effect.
+	// --------------------------------------------------------------------
+	public void processMouseDrag(MouseEvent event) {
+		currentLine.setEndX(event.getX());
+		currentLine.setEndY(event.getY());
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+}
+
+package assignment5;
+
+public interface Speaker {
+	
+	public void speak();
+	public void announce(String str);
+}
+package assignment5;
+
+public class Senator implements Speaker {
+
+	@Override
+	public void speak() {
+		// TODO Auto-generated method stub
+		System.out.println("I am a senator");
+
+	}
+
+	@Override
+	public void announce(String str) {
+		// TODO Auto-generated method stub
+		System.out.println("I Hearby Declare: "+ str);
+	}
+
+}
+package assignment5;
+
+public class Attorney implements Speaker {
+
+	@Override
+	public void speak() {
+		// TODO Auto-generated method stub
+		System.out.println("Objection!");
+	}
+
+	@Override
+	public void announce(String str) {
+		// TODO Auto-generated method stub
+		System.out.println("Your honor, I have this: "+ str);
+	}
+
+}
+
+package assignment5;
+
+public class Preacher implements Speaker {
+
+	@Override
+	public void speak() {
+		// TODO Auto-generated method stub
+		System.out.println("Praise thee");
+	}
+
+	@Override
+	public void announce(String str) {
+		// TODO Auto-generated method stub
+		System.out.println("I have a few holy words to speak: "+ str);
+
+	}
+
+}
+package assignment5;
+
+public class Problem4 {
+	public static void main(String[] args) {
+		
+		Senator sen = new Senator();
+		Attorney att = new Attorney();
+		Preacher pre = new Preacher();
+		Speaker flexible = new Senator();
+		
+		System.out.println("Indivdual Speakers will first speak:");
+		sen.speak();
+		att.speak();
+		pre.speak();
+		System.out.println("\nAbove speakers will annouce \"Hello\"");
+		sen.announce("Hello");
+		att.announce("Hello");
+		pre.announce("Hello");
+		System.out.println("\nNow, the ambiguous \"Flexible\" will go in order of above and speak.");
+		flexible.speak();
+		flexible = new Attorney();
+		flexible.speak();
+		flexible = new Preacher();
+		flexible.speak();
+	
+		
+	}
+}
+package assignment5;
+
+public class Contact implements Comparable<Contact> {
+
+	private String firstName, lastName, phone;
+
+	public Contact(String firstName, String lastName, String phone) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phone = phone;
+	}
+
+	@Override
+	public String toString() {
+		 return lastName + ",\t " + firstName + "\t" + phone;
+	}
+
+	@Override
+	public int compareTo(Contact o) {
+		int result;
+
+		if (lastName.equals(o.getLastName()))
+			result = firstName.compareTo(o.getFirstName());
+		else
+			result = lastName.compareTo(o.getLastName());
+
+		return result;
+	}
+
+	// -----------------------------------------------------------------
+	// Returns a description of this contact as a string.
+	// -----------------------------------------------------------------
+	public boolean equals(Object other) {
+		return (lastName.equals(((Contact) other).getLastName()) && firstName.equals(((Contact) other).getFirstName()));
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+}
+package assignment5;
+
+public class Sorting<T> {
+
+	// -----------------------------------------------------------------
+	// Sorts the specified array of objects using the selection
+	// sort algorithm.
+	// -----------------------------------------------------------------
+	@SuppressWarnings("unchecked")
+	public void selectionSort(Comparable<T>[] list) {
+		int max;
+		Comparable<T> temp;
+
+		for (int index = 0; index < list.length - 1; index++) {
+			max = index;
+			for (int scan = index + 1; scan < list.length; scan++)
+				if (list[scan].compareTo((T)list[max]) > 0)
+					max = scan;
+
+			// Swap the values
+			temp = list[max];
+			list[max] = list[index];
+			list[index] = temp;
+		}
+	}
+
+	// -----------------------------------------------------------------
+	// Sorts the specified array of objects using the insertion
+	// sort algorithm.
+	// -----------------------------------------------------------------
+	@SuppressWarnings("unchecked")
+	public void insertionSort(Comparable<T>[] list) {
+		for (int index = 1; index < list.length; index++) {
+			Comparable<T> key = list[index];
+			int position = index;
+
+			// Shift larger values to the right
+			while (position > 0 && key.compareTo((T) list[position - 1]) < 0) {
+				list[position] = list[position - 1];
+				position--;
+			}
+
+			list[position] = key;
+		}
+	}
+
+}
+package assignment5;
+
+public class Problem5 {
+
+	public static void main(String[] args) {
+		System.out.println("SELECTION SORT TESTING");
+		Contact[] friends = new Contact[8];
+
+		friends[0] = new Contact("John", "Smith", "610-555-7384");
+		friends[1] = new Contact("Sarah", "Barnes", "215-555-3827");
+		friends[2] = new Contact("Mark", "Riley", "733-555-2969");
+		friends[3] = new Contact("Laura", "Getz", "663-555-3984");
+		friends[4] = new Contact("Larry", "Smith", "464-555-3489");
+		friends[5] = new Contact("Frank", "Phelps", "322-555-2284");
+		friends[6] = new Contact("Mario", "Guzman", "804-555-9066");
+		friends[7] = new Contact("Marsha", "Grant", "243-555-2837");
+
+		Sorting<Contact> sorts = new Sorting<Contact>();
+		sorts.selectionSort(friends);
+
+		for (Contact friend : friends)
+			System.out.println(friend);
+		
+		System.out.println("\n\n\n\nINSERTION SORT TESTING");
+		Contact[] friends2 = new Contact[8];
+
+		friends2[0] = new Contact("John", "Smith", "610-555-7384");
+		friends2[1] = new Contact("Sarah", "Barnes", "215-555-3827");
+		friends2[2] = new Contact("Mark", "Riley", "733-555-2969");
+		friends2[3] = new Contact("Laura", "Getz", "663-555-3984");
+		friends2[4] = new Contact("Larry", "Smith", "464-555-3489");
+		friends2[5] = new Contact("Frank", "Phelps", "322-555-2284");
+		friends2[6] = new Contact("Mario", "Guzman", "804-555-9066");
+		friends2[7] = new Contact("Marsha", "Grant", "243-555-2837");
+
+		sorts.selectionSort(friends2);
+
+		for (Contact friend : friends)
+			System.out.println(friend);
+	}
+}
+
+

@@ -1,0 +1,90 @@
+package assignment1;
+
+public class Problem1 {
+	public static void main(String[] args)
+	{
+		System.out.println("Name: Alvin Tran");
+		System.out.println("DOB: 01/28/2002");
+		System.out.println("Hobbies: Games (Board and Video), Reading, Learning Hobbies, Working out?");
+		System.out.println("Favorite Book: Mistborn or The Wandering Inn ");
+		System.out.println("Favorite Movie: Don't watch many. Possibly Coco?"); 
+	}
+}
+
+
+=========================
+package assignment1;
+
+public class Problem2 {
+	public static void main(String[] args) {
+		// I do not have a middle name
+		System.out.println(" AAAAAAAAA      TTTTTTTTTTTTTT     ");
+		System.out.println("AAAAAAAAAAA           TT");
+		System.out.println("AA       AA           TT   ");
+		System.out.println("AA       AA           TT  ");
+		System.out.println("AAAAAAAAAAA           TT    ");
+		System.out.println("AAAAAAAAAAA           TT  ");
+		System.out.println("AA       AA           TT  ");
+		System.out.println("AA       AA           TT  ");
+		System.out.println("AA       AA           TT  ");
+	}
+}
+==========================
+package assignment1;
+import java.util.Scanner;
+
+public class Problem3 {
+	public static void main(String[] args) {
+		int hours = 0;
+		int minutes = 0;
+		int seconds = 0;
+		int totalTime = 0;
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter your hours");
+		hours = scan.nextInt();
+		System.out.println("Enter your minutes");
+		minutes = scan.nextInt();
+		System.out.println("Enter your seconds");
+		seconds = scan.nextInt();
+		
+		totalTime = (hours * 60 * 60) + (minutes * 60) + seconds;
+		System.out.println("The equivalent time in seconds is: " + totalTime);
+		
+		scan.close();
+	}
+}
+====================
+package assignment1;
+import java.util.Scanner;
+public class Problem4 {
+	public static void main(String[] args) {
+		
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Enter a square side length");
+		double side = scan.nextDouble();
+		
+		System.out.println("The perimeter of the square is: " + (side * 4));
+		System.out.println("The area of the square is: " + (side*side));
+		
+		scan.close();
+	}
+}
+
+============================
+package assignment1;
+import java.util.Scanner;
+public class Problem5 {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Enter your numerator");
+		int num = scan.nextInt();
+		System.out.println("Enter your denominator");
+		int den = scan.nextInt();
+		
+		System.out.println("The decimal equivalent to your fraction is: " + ((double)num / den));
+		scan.close();
+	}
+}
